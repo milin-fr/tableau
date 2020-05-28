@@ -52,6 +52,11 @@ class Modification
      */
     private $project;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=ProjectStatus::class, inversedBy="modifications")
+     */
+    private $projectStatus;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -137,6 +142,18 @@ class Modification
     public function setProject(?Project $project): self
     {
         $this->project = $project;
+
+        return $this;
+    }
+
+    public function getProjectStatus(): ?ProjectStatus
+    {
+        return $this->projectStatus;
+    }
+
+    public function setProjectStatus(?ProjectStatus $projectStatus): self
+    {
+        $this->projectStatus = $projectStatus;
 
         return $this;
     }
