@@ -47,6 +47,11 @@ class Modification
      */
     private $workTeam;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Project::class, inversedBy="modifications")
+     */
+    private $project;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -120,6 +125,18 @@ class Modification
     public function setWorkTeam(?WorkTeam $workTeam): self
     {
         $this->workTeam = $workTeam;
+
+        return $this;
+    }
+
+    public function getProject(): ?Project
+    {
+        return $this->project;
+    }
+
+    public function setProject(?Project $project): self
+    {
+        $this->project = $project;
 
         return $this;
     }
