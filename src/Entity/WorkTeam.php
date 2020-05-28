@@ -2,16 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\GroupRepository;
+use App\Repository\WorkTeamRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=GroupRepository::class)
- * @ORM\Table(name="`group`")
+ * @ORM\Entity(repositoryClass=WorkTeamRepository::class)
  */
-class Group
+class WorkTeam
 {
     /**
      * @ORM\Id()
@@ -26,7 +25,7 @@ class Group
     private $title;
 
     /**
-     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="groups")
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="workTeams")
      */
     private $users;
 
@@ -45,9 +44,15 @@ class Group
      */
     private $updatedAt;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Modification::class, mappedBy="workTeam")
+     */
+    private $modifications;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->modifications = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -125,6 +130,37 @@ class Group
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Modification[]
+     */
+    public function getModifications(): Collection
+    {
+        return $this->modifications;
+    }
+
+    public function addModification(Modification $modification): self
+    {
+        if (!$this->modifications->contains($modification)) {
+            $this->modifications[] = $modification;
+            $modification->setWorkTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeModification(Modification $modification): self
+    {
+        if ($this->modifications->contains($modification)) {
+            $this->modifications->removeElement($modification);
+            // set the owning side to null (unless already changed)
+            if ($modification->getWorkTeam() === $this) {
+                $modification->setWorkTeam(null);
+            }
+        }
 
         return $this;
     }

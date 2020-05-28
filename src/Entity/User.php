@@ -37,13 +37,20 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Group::class, mappedBy="users")
+     * @ORM\OneToMany(targetEntity=Modification::class, mappedBy="user")
      */
-    private $groups;
+    private $modifications;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=WorkTeam::class, mappedBy="users")
+     */
+    private $workTeams;
 
     public function __construct()
     {
         $this->groups = new ArrayCollection();
+        $this->modifications = new ArrayCollection();
+        $this->workTeams = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -125,28 +132,59 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|Group[]
+     * @return Collection|Modification[]
      */
-    public function getGroups(): Collection
+    public function getModifications(): Collection
     {
-        return $this->groups;
+        return $this->modifications;
     }
 
-    public function addGroup(Group $group): self
+    public function addModification(Modification $modification): self
     {
-        if (!$this->groups->contains($group)) {
-            $this->groups[] = $group;
-            $group->addUser($this);
+        if (!$this->modifications->contains($modification)) {
+            $this->modifications[] = $modification;
+            $modification->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeGroup(Group $group): self
+    public function removeModification(Modification $modification): self
     {
-        if ($this->groups->contains($group)) {
-            $this->groups->removeElement($group);
-            $group->removeUser($this);
+        if ($this->modifications->contains($modification)) {
+            $this->modifications->removeElement($modification);
+            // set the owning side to null (unless already changed)
+            if ($modification->getUser() === $this) {
+                $modification->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|WorkTeam[]
+     */
+    public function getWorkTeams(): Collection
+    {
+        return $this->workTeams;
+    }
+
+    public function addWorkTeam(WorkTeam $workTeam): self
+    {
+        if (!$this->workTeams->contains($workTeam)) {
+            $this->workTeams[] = $workTeam;
+            $workTeam->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWorkTeam(WorkTeam $workTeam): self
+    {
+        if ($this->workTeams->contains($workTeam)) {
+            $this->workTeams->removeElement($workTeam);
+            $workTeam->removeUser($this);
         }
 
         return $this;

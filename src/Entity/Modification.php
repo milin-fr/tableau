@@ -37,6 +37,16 @@ class Modification
      */
     private $createdAt;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="modifications")
+     */
+    private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=WorkTeam::class, inversedBy="modifications")
+     */
+    private $workTeam;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -89,4 +99,29 @@ class Modification
 
         return $this;
     }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getWorkTeam(): ?WorkTeam
+    {
+        return $this->workTeam;
+    }
+
+    public function setWorkTeam(?WorkTeam $workTeam): self
+    {
+        $this->workTeam = $workTeam;
+
+        return $this;
+    }
+
 }
