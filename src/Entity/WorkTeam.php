@@ -169,4 +169,20 @@ class WorkTeam
     {
         return $this->title;
     }
+
+        /** 
+     * @ORM\PrePersist
+     */
+    public function generateCreatedAt()
+    {
+        $this->created_at = new \DateTime();
+    }
+
+    /** 
+     * @ORM\PreUpdate
+     */
+    public function generateUpdatedAt()
+    {
+        $this->updated_at = new \DateTime();
+    }
 }
