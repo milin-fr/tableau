@@ -224,12 +224,12 @@ class User implements UserInterface
         return $this;
     }
 
-        /** 
+    /** 
      * @ORM\PrePersist
      */
     public function generateCreatedAt()
     {
-        $this->created_at = new \DateTime();
+        $this->createdAt = new \DateTime();
     }
 
     /** 
@@ -237,6 +237,6 @@ class User implements UserInterface
      */
     public function generateUpdatedAt()
     {
-        $this->updated_at = new \DateTime();
+        $this->updatedAt = new \DateTime();
     }
 }

@@ -204,12 +204,12 @@ class Task
         return $this->title;
     }
 
-        /** 
+    /** 
      * @ORM\PrePersist
      */
     public function generateCreatedAt()
     {
-        $this->created_at = new \DateTime();
+        $this->createdAt = new \DateTime();
     }
 
     /** 
@@ -217,6 +217,6 @@ class Task
      */
     public function generateUpdatedAt()
     {
-        $this->updated_at = new \DateTime();
+        $this->updatedAt = new \DateTime();
     }
 }
