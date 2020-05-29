@@ -62,6 +62,11 @@ class Modification
      */
     private $task;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=TaskStatus::class, inversedBy="modifications")
+     */
+    private $taskStatus;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -171,6 +176,18 @@ class Modification
     public function setTask(?Task $task): self
     {
         $this->task = $task;
+
+        return $this;
+    }
+
+    public function getTaskStatus(): ?TaskStatus
+    {
+        return $this->taskStatus;
+    }
+
+    public function setTaskStatus(?TaskStatus $taskStatus): self
+    {
+        $this->taskStatus = $taskStatus;
 
         return $this;
     }
