@@ -44,9 +44,15 @@ class TaskStatus
      */
     private $enabled;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Task::class, mappedBy="taskStatus")
+     */
+    private $tasks;
+
     public function __construct()
     {
         $this->modifications = new ArrayCollection();
+        $this->tasks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -129,6 +135,37 @@ class TaskStatus
     public function setEnabled(?bool $enabled): self
     {
         $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Task[]
+     */
+    public function getTasks(): Collection
+    {
+        return $this->tasks;
+    }
+
+    public function addTask(Task $task): self
+    {
+        if (!$this->tasks->contains($task)) {
+            $this->tasks[] = $task;
+            $task->setTaskStatus($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTask(Task $task): self
+    {
+        if ($this->tasks->contains($task)) {
+            $this->tasks->removeElement($task);
+            // set the owning side to null (unless already changed)
+            if ($task->getTaskStatus() === $this) {
+                $task->setTaskStatus(null);
+            }
+        }
 
         return $this;
     }

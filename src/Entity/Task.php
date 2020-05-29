@@ -54,6 +54,11 @@ class Task
      */
     private $modifications;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=TaskStatus::class, inversedBy="tasks")
+     */
+    private $taskStatus;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -178,6 +183,18 @@ class Task
                 $modification->setTask(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTaskStatus(): ?TaskStatus
+    {
+        return $this->taskStatus;
+    }
+
+    public function setTaskStatus(?TaskStatus $taskStatus): self
+    {
+        $this->taskStatus = $taskStatus;
 
         return $this;
     }
