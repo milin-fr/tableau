@@ -200,12 +200,4 @@ class Modification
         $this->createdAt = new \DateTime();
     }
 
-    /** 
-     * @ORM\PreUpdate
-     */
-    public function generateUpdatedAt()
-    {
-        $this->updatedAt = new \DateTime();
-    }
-
 }
