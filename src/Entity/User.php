@@ -46,11 +46,17 @@ class User implements UserInterface
      */
     private $workTeams;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Task::class, mappedBy="user")
+     */
+    private $tasks;
+
     public function __construct()
     {
         $this->groups = new ArrayCollection();
         $this->modifications = new ArrayCollection();
         $this->workTeams = new ArrayCollection();
+        $this->tasks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -185,6 +191,34 @@ class User implements UserInterface
         if ($this->workTeams->contains($workTeam)) {
             $this->workTeams->removeElement($workTeam);
             $workTeam->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Task[]
+     */
+    public function getTasks(): Collection
+    {
+        return $this->tasks;
+    }
+
+    public function addTask(Task $task): self
+    {
+        if (!$this->tasks->contains($task)) {
+            $this->tasks[] = $task;
+            $task->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTask(Task $task): self
+    {
+        if ($this->tasks->contains($task)) {
+            $this->tasks->removeElement($task);
+            $task->removeUser($this);
         }
 
         return $this;
