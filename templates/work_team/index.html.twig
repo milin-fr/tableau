@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}WorkTeam index{% endblock %}
+
+{% block body %}
+    <h1>WorkTeam index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Enabled</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for work_team in work_teams %}
+            <tr>
+                <td>{{ work_team.id }}</td>
+                <td>{{ work_team.title }}</td>
+                <td>{{ work_team.enabled ? 'Yes' : 'No' }}</td>
+                <td>{{ work_team.createdAt ? work_team.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ work_team.updatedAt ? work_team.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('work_team_show', {'id': work_team.id}) }}">show</a>
+                    <a href="{{ path('work_team_edit', {'id': work_team.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('work_team_new') }}">Create new</a>
+{% endblock %}
