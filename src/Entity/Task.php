@@ -210,6 +210,7 @@ class Task
     public function generateCreatedAt()
     {
         $this->createdAt = new \DateTime();
+        $this->enabled = 1;
     }
 
     /** 

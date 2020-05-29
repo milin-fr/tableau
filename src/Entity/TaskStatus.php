@@ -181,6 +181,7 @@ class TaskStatus
     public function generateCreatedAt()
     {
         $this->createdAt = new \DateTime();
+        $this->enabled = 1;
     }
 
     /** 
