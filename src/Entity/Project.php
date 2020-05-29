@@ -49,6 +49,11 @@ class Project
      */
     private $modifications;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=ProjectStatus::class, inversedBy="projects")
+     */
+    private $projectStatus;
+
     public function __construct()
     {
         $this->modifications = new ArrayCollection();
@@ -146,6 +151,18 @@ class Project
                 $modification->setProject(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getProjectStatus(): ?ProjectStatus
+    {
+        return $this->projectStatus;
+    }
+
+    public function setProjectStatus(?ProjectStatus $projectStatus): self
+    {
+        $this->projectStatus = $projectStatus;
 
         return $this;
     }
