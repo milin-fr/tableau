@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Equipes{% endblock %}
+
+{% block body %}
+
+<div class="container">
+  <div class="row">
+    {% for team in teams %}
+        <div class="col-sm">
+            {{ team.title }}
+        </div>
+    {% else %}
+        <div class="col-sm">
+            Y'as pas d'equipes. Il faut en creer une.
+        </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
