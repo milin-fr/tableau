@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=TaskStatusRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class TaskStatus
 {

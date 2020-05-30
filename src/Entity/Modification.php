@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=ModificationRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Modification
 {
