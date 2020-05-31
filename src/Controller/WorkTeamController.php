@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/workteam")
+ * @Route("/work-team")
  */
 class WorkTeamController extends AbstractController
 {

@@ -55,9 +55,15 @@ class Project
      */
     private $projectStatus;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Task::class, mappedBy="project")
+     */
+    private $Tasks;
+
     public function __construct()
     {
         $this->modifications = new ArrayCollection();
+        $this->Tasks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -188,5 +194,36 @@ class Project
     public function generateUpdatedAt()
     {
         $this->updatedAt = new \DateTime();
+    }
+
+    /**
+     * @return Collection|Task[]
+     */
+    public function getTasks(): Collection
+    {
+        return $this->Tasks;
+    }
+
+    public function addTask(Task $task): self
+    {
+        if (!$this->Tasks->contains($task)) {
+            $this->Tasks[] = $task;
+            $task->setProject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTask(Task $task): self
+    {
+        if ($this->Tasks->contains($task)) {
+            $this->Tasks->removeElement($task);
+            // set the owning side to null (unless already changed)
+            if ($task->getProject() === $this) {
+                $task->setProject(null);
+            }
+        }
+
+        return $this;
     }
 }

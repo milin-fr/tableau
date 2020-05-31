@@ -60,6 +60,11 @@ class Task
      */
     private $taskStatus;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Project::class, inversedBy="Tasks")
+     */
+    private $project;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -220,5 +225,17 @@ class Task
     public function generateUpdatedAt()
     {
         $this->updatedAt = new \DateTime();
+    }
+
+    public function getProject(): ?Project
+    {
+        return $this->project;
+    }
+
+    public function setProject(?Project $project): self
+    {
+        $this->project = $project;
+
+        return $this;
     }
 }
