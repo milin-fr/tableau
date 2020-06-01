@@ -13,14 +13,13 @@
               {{ projectStatus.title }}
             </div>
         </div>
-        
     </div>
     {% for project in projectStatus.projects %}
     <div class="row">
         <li>
             {{ project.title }} ({{ project.description }})
         </li>
-            
+              <span class="react-like"></span>
     </div>
     {% endfor %}
     {% else %}

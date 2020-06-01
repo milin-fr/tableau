@@ -4,4 +4,4 @@ var app = {
     }
   };
   
-  document.addEventListener('DOMContentLoaded', app.init);
+document.addEventListener('DOMContentLoaded', app.init);
