@@ -17,7 +17,7 @@
     {% for project in projectStatus.projects %}
     <div class="row">
         <li>
-            {{ project.title }} ({{ project.description }})
+            {{ project.title }} ({{ project.description }}) <a href="{{ path('project_edit', {'id': project.id}) }}"></a>
         </li>
     </div>
     {% endfor %}
@@ -27,7 +27,6 @@
         </div>
     
     {% endfor %}
-  <a href="{{ path('project_status_new') }}">Definir les etapes</a>
   <a href="{{ path('project_new') }}">Ajouter un projet</a>
 </div>
 {% endblock %}
