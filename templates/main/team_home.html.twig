@@ -17,7 +17,7 @@
     {% for project in projectStatus.projects %}
     <div class="row">
         <li>
-            {{ project.title }} ({{ project.description }}) <a href="{{ path('project_edit', {'id': project.id}) }}"></a>
+            <a href="{{ path('project_show', {'id': project.id}) }}">{{ project.title }}</a> ({{ project.description }}) <a href="{{ path('project_edit', {'id': project.id}) }}"><i class="fas fa-edit"></i></a>
         </li>
     </div>
     {% endfor %}
