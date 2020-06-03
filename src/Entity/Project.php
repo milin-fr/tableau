@@ -60,6 +60,11 @@ class Project
      */
     private $Tasks;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=WorkTeam::class, inversedBy="projects")
+     */
+    private $workTeam;
+
     public function __construct()
     {
         $this->modifications = new ArrayCollection();
@@ -223,6 +228,18 @@ class Project
                 $task->setProject(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getWorkTeam(): ?WorkTeam
+    {
+        return $this->workTeam;
+    }
+
+    public function setWorkTeam(?WorkTeam $workTeam): self
+    {
+        $this->workTeam = $workTeam;
 
         return $this;
     }

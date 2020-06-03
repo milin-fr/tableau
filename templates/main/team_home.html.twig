@@ -9,7 +9,7 @@
     {% for projectStatus in projectStatuses %}
     <div class="row">
         <div class="col-sm">
-            <div class="text-primary">
+            <div class="h1">
               {{ projectStatus.title }}
             </div>
         </div>
@@ -19,15 +19,15 @@
         <li>
             {{ project.title }} ({{ project.description }})
         </li>
-              <span class="react-like"></span>
     </div>
     {% endfor %}
     {% else %}
         <div class="col-sm">
-            Les etapes de projet n'ont pas été definis.
+            Les etapes de projet n'ont pas été definis. <a href="{{ path('project_status_new') }}">Definir les etapes</a>.
         </div>
     
     {% endfor %}
-  
+  <a href="{{ path('project_status_new') }}">Definir les etapes</a>
+  <a href="{{ path('project_new') }}">Ajouter un projet</a>
 </div>
 {% endblock %}

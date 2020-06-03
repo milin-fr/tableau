@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Project;
+use App\Form\AddProjectType;
 use App\Form\ProjectType;
 use App\Repository\ProjectRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -49,7 +50,7 @@ class ProjectController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="project_show", methods={"GET"})
+     * @Route("/{id<\d+>}", name="project_show", methods={"GET"})
      */
     public function show(Project $project): Response
     {
@@ -59,7 +60,7 @@ class ProjectController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="project_edit", methods={"GET","POST"})
+     * @Route("/{id<\d+>}/edit", name="project_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Project $project): Response
     {
@@ -79,7 +80,7 @@ class ProjectController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="project_delete", methods={"DELETE"})
+     * @Route("/{id<\d+>}", name="project_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Project $project): Response
     {
@@ -91,4 +92,28 @@ class ProjectController extends AbstractController
 
         return $this->redirectToRoute('project_index');
     }
+
+    /**
+     * @Route("/add", name="project_add", methods={"GET","POST"})
+     */
+    public function add(Request $request): Response
+    {
+        $project = new Project();
+        $form = $this->createForm(AddProjectType::class, $project);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($project);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('project_index');
+        }
+
+        return $this->render('project/new.html.twig', [
+            'project' => $project,
+            'form' => $form->createView(),
+        ]);
+    }
+
 }

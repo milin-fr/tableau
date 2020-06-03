@@ -3,22 +3,16 @@
 namespace App\Form;
 
 use App\Entity\Project;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ProjectType extends AbstractType
+class AddProjectType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('title')
-            ->add('description')
-            ->add('projectStatus', EntityType::class, [
-                'class' => 'App\Entity\ProjectStatus',
-                'placeholder' => "Selectionez le status"
-            ])
         ;
     }
 

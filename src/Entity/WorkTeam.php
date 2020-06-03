@@ -50,10 +50,16 @@ class WorkTeam
      */
     private $modifications;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Project::class, mappedBy="workTeam")
+     */
+    private $projects;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
         $this->modifications = new ArrayCollection();
+        $this->projects = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -186,5 +192,36 @@ class WorkTeam
     public function generateUpdatedAt()
     {
         $this->updatedAt = new \DateTime();
+    }
+
+    /**
+     * @return Collection|Project[]
+     */
+    public function getProjects(): Collection
+    {
+        return $this->projects;
+    }
+
+    public function addProject(Project $project): self
+    {
+        if (!$this->projects->contains($project)) {
+            $this->projects[] = $project;
+            $project->setWorkTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProject(Project $project): self
+    {
+        if ($this->projects->contains($project)) {
+            $this->projects->removeElement($project);
+            // set the owning side to null (unless already changed)
+            if ($project->getWorkTeam() === $this) {
+                $project->setWorkTeam(null);
+            }
+        }
+
+        return $this;
     }
 }
