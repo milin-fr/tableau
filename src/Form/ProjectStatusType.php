@@ -14,9 +14,7 @@ class ProjectStatusType extends AbstractType
         $builder
             ->add('title')
             ->add('displayOrder')
-            ->add('enabled')
-            ->add('createdAt')
-            ->add('updatedAt')
+            ->add('color')
         ;
     }
 

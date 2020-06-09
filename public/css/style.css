@@ -1,4 +1,11 @@
-body
+.project-status--card
 {
-    background-color: lightpink;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.project--list
+{
+    padding-left: 50px;
+    margin-bottom: 10px;
 }
