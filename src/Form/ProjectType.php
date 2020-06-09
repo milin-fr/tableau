@@ -19,6 +19,10 @@ class ProjectType extends AbstractType
                 'class' => 'App\Entity\ProjectStatus',
                 'placeholder' => "Selectionez le status"
             ])
+            ->add('tasks', EntityType::class, [
+                'class' => 'App\Entity\Task',
+                'placeholder' => "Selectionez les taches"
+            ])
         ;
     }
 

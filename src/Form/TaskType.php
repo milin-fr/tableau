@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Project;
 use App\Entity\Task;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -14,11 +16,11 @@ class TaskType extends AbstractType
         $builder
             ->add('title')
             ->add('description')
-            ->add('createdAt')
-            ->add('updatedAt')
-            ->add('enabled')
             ->add('user')
             ->add('taskStatus')
+            ->add('project', EntityType::class, [
+                'class' => Project::class
+            ]);
         ;
     }
 
