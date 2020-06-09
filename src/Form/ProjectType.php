@@ -21,7 +21,8 @@ class ProjectType extends AbstractType
             ])
             ->add('tasks', EntityType::class, [
                 'class' => 'App\Entity\Task',
-                'placeholder' => "Selectionez les taches"
+                'expanded' => true,
+                'multiple' => true,
             ])
         ;
     }
