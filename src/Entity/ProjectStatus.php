@@ -55,6 +55,11 @@ class ProjectStatus
      */
     private $projects;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $color;
+
     public function __construct()
     {
         $this->modifications = new ArrayCollection();
@@ -200,6 +205,7 @@ class ProjectStatus
     {
         $this->createdAt = new \DateTime();
         $this->enabled = 1;
+        $this->color = "#000000";
     }
 
     /** 
@@ -208,5 +214,17 @@ class ProjectStatus
     public function generateUpdatedAt()
     {
         $this->updatedAt = new \DateTime();
+    }
+
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(?string $color): self
+    {
+        $this->color = $color;
+
+        return $this;
     }
 }
