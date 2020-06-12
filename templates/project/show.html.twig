@@ -3,13 +3,12 @@
 {% block title %}Project{% endblock %}
 
 {% block body %}
-    <h1>Project</h1>
-<p>Titre du projet : {{ project.title }}</p>
-<p>Description du projet : {{ project.description }}</p>
+    <h1>{{ project.title }}</h1>
     {% for task in project.tasks %}
-        <p>{{ task.title }}</p>
+        <li>{{ task.title }}: {{task.taskStatus }}</li>
     {% endfor %}
     <a href="{{ path('project_index') }}">back to list</a>
 
     <a href="{{ path('project_edit', {'id': project.id}) }}">edit</a>
+    <p><a href="{{ path('task_new') }}">New task</a></p>
 {% endblock %}
