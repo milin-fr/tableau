@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Api;
 
 use App\Entity\TaskStatus;
 use App\Form\TaskStatusType;
@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/task-status")
  */
-class TaskStatusController extends AbstractController
+class ApiTaskStatusController extends AbstractController
 {
     /**
      * @Route("/", name="task_status_index", methods={"GET"})

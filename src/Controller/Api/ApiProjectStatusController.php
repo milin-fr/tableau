@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Api;
 
 use App\Entity\ProjectStatus;
 use App\Form\ProjectStatusType;
@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/project-status")
  */
-class ProjectStatusController extends AbstractController
+class ApiProjectStatusController extends AbstractController
 {
     /**
      * @Route("/", name="project_status_index", methods={"GET"})

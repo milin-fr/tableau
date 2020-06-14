@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Api;
 
 use App\Entity\Task;
 use App\Form\TaskType;
@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/task")
  */
-class TaskController extends AbstractController
+class ApiTaskController extends AbstractController
 {
     /**
      * @Route("/", name="task_index", methods={"GET"})

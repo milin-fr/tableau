@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Api;
 
 use App\Entity\WorkTeam;
 use App\Form\WorkTeamType;
@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/work-team")
  */
-class WorkTeamController extends AbstractController
+class ApiWorkTeamController extends AbstractController
 {
     /**
      * @Route("/", name="work_team_index", methods={"GET"})

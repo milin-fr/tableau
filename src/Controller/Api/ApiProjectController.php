@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Api;
 
 use App\Entity\Project;
 use App\Form\AddProjectType;
@@ -14,12 +14,12 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/project")
  */
-class ProjectController extends AbstractController
+class ApiProjectController extends AbstractController
 {
     /**
-     * @Route("/", name="project_index", methods={"GET"})
+     * @Route("/", name="get_projects", methods={"GET"})
      */
-    public function index(ProjectRepository $projectRepository): Response
+    public function get_projects(ProjectRepository $projectRepository): Response
     {
         return $this->render('project/index.html.twig', [
             'projects' => $projectRepository->findAll(),
