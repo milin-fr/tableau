@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @Route("/api")
  */
-class MainController extends AbstractController
+class ApiMainController extends AbstractController
 {
     /**
      * @Route("/", name="api_home")
