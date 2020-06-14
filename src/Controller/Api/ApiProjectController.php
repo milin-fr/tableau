@@ -6,6 +6,8 @@ use App\Entity\Project;
 use App\Form\AddProjectType;
 use App\Form\ProjectType;
 use App\Repository\ProjectRepository;
+use App\Repository\ProjectStatusRepository;
+use App\Repository\WorkTeamRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @Route("api/project")
@@ -38,11 +41,19 @@ class ApiProjectController extends AbstractController
     /**
      * @Route("/", name="post_project", methods={"POST"})
      */
-    public function post_project(Request $request, SerializerInterface $serializer, EntityManagerInterface $em)
+    public function post_project(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, ValidatorInterface $validator, WorkTeamRepository $workTeamRepository, ProjectStatusRepository $projectStatusRepository)
     {
         $json = $request->getContent();
+        $contentObject = json_decode($json);
         try {
             $project = $serializer->deserialize($json, Project::class, 'json');
+            $project->setWorkTeam($workTeamRepository->find($contentObject->work_team_id));
+            $project->setProjectStatus($projectStatusRepository->find($contentObject->project_status_id));
+            $errors = $validator->validate($project);
+
+            if(count($errors) > 0) {
+                return $this->json($errors, 400);
+            }
             $em->persist($project);
             $em->flush();
 
