@@ -25,26 +25,11 @@ class ApiProjectController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="project_new", methods={"GET","POST"})
+     * @Route("/{id<\d+>}", name="get_project", methods={"GET"})
      */
-    public function new(Request $request): Response
+    public function get_project($id, ProjectRepository $projectRepository): Response
     {
-        $project = new Project();
-        $form = $this->createForm(ProjectType::class, $project);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($project);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('project_index');
-        }
-
-        return $this->render('project/new.html.twig', [
-            'project' => $project,
-            'form' => $form->createView(),
-        ]);
+        return $this->json($projectRepository->find($id), 200, [], ['groups' => 'get:projects']);
     }
 
     /**
