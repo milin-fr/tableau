@@ -6,10 +6,13 @@ use App\Entity\Project;
 use App\Form\AddProjectType;
 use App\Form\ProjectType;
 use App\Repository\ProjectRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Exception\NotEncodableValueException;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * @Route("api/project")
@@ -30,6 +33,27 @@ class ApiProjectController extends AbstractController
     public function get_project($id, ProjectRepository $projectRepository): Response
     {
         return $this->json($projectRepository->find($id), 200, [], ['groups' => 'get:projects']);
+    }
+
+    /**
+     * @Route("/", name="post_project", methods={"POST"})
+     */
+    public function post_project(Request $request, SerializerInterface $serializer, EntityManagerInterface $em)
+    {
+        $json = $request->getContent();
+        try {
+            $project = $serializer->deserialize($json, Project::class, 'json');
+            $em->persist($project);
+            $em->flush();
+
+            return $this->json($project, 201, [], ['groups' => 'get:projects']);
+        } catch(NotEncodableValueException $e) {
+            return $this->json([
+                'status' => 400,
+                'message' => $e->getMessage()
+            ], 400);
+        }
+
     }
 
     /**
