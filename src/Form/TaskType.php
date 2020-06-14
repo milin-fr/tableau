@@ -15,7 +15,6 @@ class TaskType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('description')
             ->add('user')
             ->add('taskStatus')
             ->add('project', EntityType::class, [
