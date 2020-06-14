@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Repository\WorkTeamRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,19 +18,16 @@ class WorkTeam
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"workteam"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"workteam"})
      */
     private $title;
 
     /**
      * @ORM\ManyToMany(targetEntity=User::class, inversedBy="workTeams")
-     * @Groups({"workteam"})
      */
     private $users;
 
@@ -55,7 +53,6 @@ class WorkTeam
 
     /**
      * @ORM\OneToMany(targetEntity=Project::class, mappedBy="workTeam")
-     * @Groups({"workteam"})
      */
     private $projects;
 

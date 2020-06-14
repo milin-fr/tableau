@@ -3,10 +3,13 @@
 namespace App\Controller\Api;
 
 use App\Entity\Project;
+use App\Entity\Task;
 use App\Form\AddProjectType;
 use App\Form\ProjectType;
+use App\Form\TaskType;
 use App\Repository\ProjectRepository;
 use App\Repository\ProjectStatusRepository;
+use App\Repository\TaskStatusRepository;
 use App\Repository\WorkTeamRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -50,7 +53,6 @@ class ApiProjectController extends AbstractController
             $project->setWorkTeam($workTeamRepository->find($contentObject->work_team_id));
             $project->setProjectStatus($projectStatusRepository->find($contentObject->project_status_id));
             $errors = $validator->validate($project);
-
             if(count($errors) > 0) {
                 return $this->json($errors, 400);
             }
@@ -68,70 +70,25 @@ class ApiProjectController extends AbstractController
     }
 
     /**
-     * @Route("/{id<\d+>}", name="project_show", methods={"GET"})
+     * @Route("/{id<\d+>}/add-task", name="project_add_task", methods={"PUT"})
      */
-    public function show(Project $project): Response
+    public function project_add_task($id, ProjectRepository $projectRepository, Request $request, SerializerInterface $serializer, EntityManagerInterface $em, TaskStatusRepository $taskStatusRepository)
     {
-        return $this->render('project/show.html.twig', [
-            'project' => $project,
-        ]);
-    }
+        $project = $projectRepository->find($id);
 
-    /**
-     * @Route("/{id<\d+>}/edit", name="project_edit", methods={"GET","POST"})
-     */
-    public function edit(Request $request, Project $project): Response
-    {
-        $form = $this->createForm(ProjectType::class, $project);
-        $form->handleRequest($request);
+        $contentObject = json_decode($request->getContent());
+        $taskTitle = $contentObject->task_title;
+        $taskStatus = $taskStatusRepository->find(1);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+        $task = new Task();
+        $task->setTitle($taskTitle);
+        $task->setTaskStatus($taskStatus);
+        $em->persist($task);
+        $project->addTask($task);
+        $em->flush();
 
-            return $this->redirectToRoute('project_index');
-        }
+        return $this->json($project, 200, [], ['groups' => 'get:projects']);
 
-        return $this->render('project/edit.html.twig', [
-            'project' => $project,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/{id<\d+>}", name="project_delete", methods={"DELETE"})
-     */
-    public function delete(Request $request, Project $project): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$project->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($project);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('project_index');
-    }
-
-    /**
-     * @Route("/add", name="project_add", methods={"GET","POST"})
-     */
-    public function add(Request $request): Response
-    {
-        $project = new Project();
-        $form = $this->createForm(AddProjectType::class, $project);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($project);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('project_index');
-        }
-
-        return $this->render('project/new.html.twig', [
-            'project' => $project,
-            'form' => $form->createView(),
-        ]);
     }
 
 }
