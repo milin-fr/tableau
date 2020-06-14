@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\ProjectRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ProjectRepository::class)
@@ -17,16 +17,19 @@ class Project
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"workteam", "get:projects"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"get:projects"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"get:projects"})
      */
     private $description;
 
@@ -52,11 +55,13 @@ class Project
 
     /**
      * @ORM\ManyToOne(targetEntity=ProjectStatus::class, inversedBy="projects")
+     * @Groups({"get:projects"})
      */
     private $projectStatus;
 
     /**
      * @ORM\OneToMany(targetEntity=Task::class, mappedBy="project")
+     * @Groups({"get:projects"})
      */
     private $Tasks;
 

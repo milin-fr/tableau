@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/project")
+ * @Route("api/project")
  */
 class ApiProjectController extends AbstractController
 {
@@ -21,9 +21,7 @@ class ApiProjectController extends AbstractController
      */
     public function get_projects(ProjectRepository $projectRepository): Response
     {
-        return $this->render('project/index.html.twig', [
-            'projects' => $projectRepository->findAll(),
-        ]);
+        return $this->json($projectRepository->findAll(), 200, [], ['groups' => 'get:projects']);
     }
 
     /**

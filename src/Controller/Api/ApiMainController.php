@@ -16,14 +16,8 @@ class ApiMainController extends AbstractController
     /**
      * @Route("/", name="api_home")
      */
-    public function home(WorkTeamRepository $workTeamRepository, SerializerInterface $serializer)
+    public function home(WorkTeamRepository $workTeamRepository)
     {
-        $workTeams = $workTeamRepository->findAll();
-
-        $json = $serializer->serialize($workTeams, 'json', []);
-
-        return new Response($json, 200, [
-            "Content-Type" => "application/json"
-        ]);
+        return $this->json($workTeamRepository->findAll(), Response::HTTP_OK, [], ['groups' => 'workteam']);
     }
 }

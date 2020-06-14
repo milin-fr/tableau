@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\TaskRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=TaskRepository::class)
@@ -17,11 +17,13 @@ class Task
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"get:projects"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"get:projects"})
      */
     private $title;
 
@@ -32,6 +34,7 @@ class Task
 
     /**
      * @ORM\ManyToMany(targetEntity=User::class, inversedBy="tasks")
+     * @Groups({"get:projects"})
      */
     private $user;
 
@@ -57,6 +60,7 @@ class Task
 
     /**
      * @ORM\ManyToOne(targetEntity=TaskStatus::class, inversedBy="tasks")
+     * @Groups({"get:projects"})
      */
     private $taskStatus;
 
