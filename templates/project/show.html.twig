@@ -11,4 +11,17 @@
 
     <a href="{{ path('project_edit', {'id': project.id}) }}">edit</a>
     <p><a href="{{ path('task_new') }}">New task</a></p>
+
+    <form action="{{ path('project_put_description', {'id': project.id}) }}" method="put" class="form-example" id="axios-form--test">
+        <div class="form-example">
+            <label for="description">Description: </label>
+            <textarea type="text" name="description" id="description" required>{{ project.description }}</textarea>
+        </div>
+        <div class="form-example">
+            <input type="submit" value="Update!">
+        </div>
+    </form>
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('js/projectForm.js') }}"></script>
 {% endblock %}

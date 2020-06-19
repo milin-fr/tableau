@@ -91,4 +91,21 @@ class ApiProjectController extends AbstractController
 
     }
 
+    /**
+     * @Route("/{id<\d+>}/project-put-description", name="project_put_description", methods={"PUT"})
+     */
+    public function project_put_description($id, ProjectRepository $projectRepository, Request $request, SerializerInterface $serializer, EntityManagerInterface $em, TaskStatusRepository $taskStatusRepository)
+    {
+        $project = $projectRepository->find($id);
+
+        $contentObject = json_decode($request->getContent());
+        $projectDescription = $contentObject->project_description;
+        $project->setDescription($projectDescription);
+
+        $em->flush();
+
+        return $this->json($project, 200, [], ['groups' => 'get:projects']);
+
+    }
+
 }

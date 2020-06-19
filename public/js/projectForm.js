@@ -1,20 +1,17 @@
 var app = {
     init: function() {
-        console.log("init");
-        document.querySelectorAll(".test-test").forEach(function(link){
-          link.addEventListener("click", app.onClickBtn);
-        });
+          document.querySelector("#axios-form--test").addEventListener("submit", app.onClickBtn);
     },
     onClickBtn: function(event) {
       event.preventDefault();
-      const url = this.href;
+      const url = this.action;
 
       //axios.get(url).then(function(response){
       //  console.log(response);
       //});
-      
+      console.log(this.querySelector("#description").value);
       axios.put(url, {
-        "task_title": "task api test title 2"
+        "project_description": this.querySelector("#description").value
       })
       .then(function (response) {
         console.log(response);
