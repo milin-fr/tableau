@@ -5,7 +5,15 @@
 {% block body %}
     <h1>{{ project.title }}</h1>
     {% for task in project.tasks %}
-        <li>{{ task.title }}: {{task.taskStatus }}</li>
+        <li>
+            {{ task.title }}: 
+            <select id="cars" name="cars">
+                <option value="{{task.taskStatus }}" selected>{{task.taskStatus }}</option>
+                <option value="saab">Saab</option>
+                <option value="fiat">Fiat</option>
+                <option value="audi">Audi</option>
+            </select>
+        </li>
     {% endfor %}
     <a href="{{ path('project_index') }}">back to list</a>
 
